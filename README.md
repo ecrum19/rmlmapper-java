@@ -9,6 +9,15 @@ The RMLMapper loads all data in memory, so be aware when working with big datase
 Want to get started quickly? Check out [Releases](#releases) on where to find the latest CLI build as a jar,
 and see [Usage](#cli) on how to use the commandline interface!
 
+
+## VCF-2-RDF Guide:
+
+Install:
+`mvn install -DskipTests=true`
+
+Run VCF conversion:
+`bash run_ test.sh`
+
 ## Table of contents <!-- omit in toc -->
 
 - [Features](#features)
