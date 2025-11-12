@@ -16,3 +16,5 @@ run-output/
 run_metrics/
 *.vcf
 *.tsv
+
+buildNumber.properties
