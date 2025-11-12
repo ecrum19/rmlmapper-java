@@ -15,6 +15,9 @@ and see [Usage](#cli) on how to use the commandline interface!
 Install:
 `mvn install -DskipTests=true`
 
+Convert VCF to TSV:
+`bash vcf_as_tsv filename.vcf`
+
 Run VCF conversion:
 `bash run_ test.sh`
 
