@@ -4,17 +4,18 @@
 set -euo pipefail
 
 # ---------- Config ----------
-JAR=${JAR:-target/rmlmapper-8.0.0-r381-all.jar}
+JAR=${JAR:-target/rmlmapper-8.0.0-r379-all.jar}
 IN=${IN:-rules.ttl}
-OUT=${OUT:-test_out.ttl}
+OUT_NAME=${OUT_NAME:-test_out.ttl}
+OUT_DIR=${OUT_DIR:-run-output}
+OUT="$OUT_DIR/$OUT_NAME"
 SER=${SER:-turtle}
 VERBOSE_FLAG=${VERBOSE_FLAG:--v}
-EXTRA_JAVA_OPTS=${JAVA_OPTS:-}
 LOGDIR=${LOGDIR:-run_metrics}
-mkdir -p "$LOGDIR"
+mkdir -p "$LOGDIR" "$OUT_DIR"
 
 RUN_ID=$(date +%Y%m%dT%H%M%S)
-TIMESTAMP=$(date -Is)
+TIMESTAMP=$(date +"%Y-%m-%dT%H:%M:%S")
 TIME_LOG="$LOGDIR/time-$RUN_ID.txt"
 METRICS_JSON="$LOGDIR/metrics-$RUN_ID.json"
 METRICS_CSV="$LOGDIR/metrics.csv"
@@ -54,7 +55,7 @@ JAVA_VERSION=$(java -version 2>&1 | head -n1 | sed 's/"/\\"/g')
 # or for Java 8: GC_OPTS="-Xloggc:$LOGDIR/gc-$RUN_ID.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps"
 GC_OPTS=${GC_OPTS:-}
 
-JAVA_CMD=(java $EXTRA_JAVA_OPTS $GC_OPTS -jar "$JAR" -m "$IN" -o "$OUT" -s "$SER" "$VERBOSE_FLAG")
+JAVA_CMD=(java -jar "$JAR" -m "$IN" -o "$OUT" -s "$SER" "$VERBOSE_FLAG")
 
 # ---------- Pre-run ----------
 IN_SIZE=$(stat_size "$IN")

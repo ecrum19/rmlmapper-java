@@ -12,5 +12,6 @@ settings.xml
 .classpath
 .project
 
-test-output/
+run-output/
+run_metrics/
 *.vcf
