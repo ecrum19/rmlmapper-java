@@ -5,6 +5,7 @@ set -euo pipefail
 
 # ---------- Config ----------
 JAR=${JAR:-}
+EXTRA_JAVA_OPTS=${JAVA_OPTS:-"-Xms4g -Xmx8g"}
 IN=${IN:-rules.ttl}
 OUT_NAME=${OUT_NAME:-0GOOR_HG002_out.ttl}
 OUT_DIR=${OUT_DIR:-run-output}
@@ -99,7 +100,7 @@ JAVA_VERSION=$(java -version 2>&1 | head -n1 | sed 's/"/\\"/g')
 # or for Java 8: GC_OPTS="-Xloggc:$LOGDIR/gc-$RUN_ID.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps"
 GC_OPTS=${GC_OPTS:-}
 
-JAVA_CMD=(java -jar "$JAR" -m "$IN" -o "$OUT" -s "$SER" "$VERBOSE_FLAG")
+JAVA_CMD=(java "$EXTRA_JAVA_OPTS" -jar "$JAR" -m "$IN" -o "$OUT" -s "$SER" "$VERBOSE_FLAG")
 
 # ---------- Pre-run ----------
 IN_SIZE=$(stat_size "$IN")
