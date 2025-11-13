@@ -84,6 +84,14 @@ if [[ ! -f "$f" ]]; then echo 0; return; fi
   grep -E '^\s*[^#].*\.\s*$' "$f" | wc -l | tr -d ' '
 }
 
+elapsed_to_seconds() {
+  awk -F':' '{
+    if (NF==3) { h=$1+0; m=$2+0; s=$3+0; printf("%.3f", h*3600 + m*60 + s) }
+    else if (NF==2) { m=$1+0; s=$2+0; printf("%.3f", m*60 + s) }
+    else { s=$1+0; printf("%.3f", s) }
+  }'
+}
+
 JAVA_VERSION=$(java -version 2>&1 | head -n1 | sed 's/"/\\"/g')
 
 # Minimal GC logging off by default to keep things simple; uncomment if you want it.
@@ -116,23 +124,16 @@ SYS_SEC=""
 MAX_RSS_KB=""
 
 if have_gnu_time; then
-  # Extract values from GNU time -v output
-  # Elapsed may be H:MM:SS or M:SS
   ELAPSED=$(awk -F': ' '/Elapsed \(wall clock\) time/ {print $2}' "$TIME_LOG")
-  IFS=: read -r A B C <<<"$ELAPSED"
-  if [[ -n "${C:-}" ]]; then
-    WALL_SEC=$((10#$A*3600 + 10#$B*60 + 10#$C))
-  else
-    WALL_SEC=$((10#${A:-0}*60 + 10#${B:-0}))
-  fi
+  WALL_SEC=$(printf "%s" "$ELAPSED" | elapsed_to_seconds)
+
   USER_SEC=$(awk -F': ' '/User time \(seconds\)/ {print $2}' "$TIME_LOG")
   SYS_SEC=$(awk -F': '  '/System time \(seconds\)/ {print $2}' "$TIME_LOG")
   MAX_RSS_KB=$(awk -F': ' '/Maximum resident set size/ {print $2}' "$TIME_LOG")
 else
-  WALL_SEC=$(awk '/^real/ {print $2}' "$TIME_LOG")
+  WALL_SEC=$(awk '/^real/ {print $2}' "$TIME_LOG")   # already a float
   USER_SEC=$(awk '/^user/ {print $2}' "$TIME_LOG")
   SYS_SEC=$(awk  '/^sys/  {print $2}' "$TIME_LOG")
-  MAX_RSS_KB=""
 fi
 
 # ---------- Save JSON ----------

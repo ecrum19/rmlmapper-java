@@ -22,7 +22,7 @@ Convert VCF to TSV:
 `bash vcf_as_tsv filename.vcf`
 
 Run VCF conversion:
-`bash run_ test.sh`
+`bash run_test.sh`
 
 ## Table of contents <!-- omit in toc -->
 
