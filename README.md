@@ -12,6 +12,9 @@ and see [Usage](#cli) on how to use the commandline interface!
 
 ## VCF-2-RDF Guide:
 
+Requirements:
+`sudo apt install maven`
+
 Install:
 `mvn install -DskipTests=true`
 

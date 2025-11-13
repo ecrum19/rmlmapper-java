@@ -6,7 +6,7 @@ set -euo pipefail
 # ---------- Config ----------
 JAR=${JAR:-}
 IN=${IN:-rules.ttl}
-OUT_NAME=${OUT_NAME:-test_out.ttl}
+OUT_NAME=${OUT_NAME:-0GOOR_HG002_out.ttl}
 OUT_DIR=${OUT_DIR:-run-output}
 OUT="$OUT_DIR/$OUT_NAME"
 SER=${SER:-turtle}
